@@ -1,7 +1,5 @@
 # Ceasium
 
-This is the README for your extension "ceasium". After writing up a brief description, we recommend including the following sections.
-
 ## Features
 
 This extension integrates [ceasium](https://github.com/EvaldasZmitra/ceasium)

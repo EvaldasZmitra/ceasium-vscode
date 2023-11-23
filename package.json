@@ -1,5 +1,6 @@
 {
   "name": "ceasium",
+  "publisher": "EvaldasZmitra",
   "displayName": "ceasium",
   "description": "Integration for Ceasium build system",
   "version": "0.0.1",
