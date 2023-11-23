@@ -1,0 +1,30 @@
+name: Publish VS Code Extension
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Package extension
+        run: npm run package
+
+      - name: Publish extension to VS Code Marketplace
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.VSCE_PERSONAL_ACCESS_TOKEN }}
+        run: npx vsce publish -p $PERSONAL_ACCESS_TOKEN
