@@ -4,13 +4,14 @@
   "displayName": "ceasium",
   "description": "Integration for Ceasium build system",
   "icon": "icon.png",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.83.0"
   },
   "categories": [
     "Other"
   ],
+  "repository": "https://github.com/EvaldasZmitra/ceasium-vscode",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
