@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import * as path from "path";
 import * as os from "os";
+import * as fs from "fs";
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
@@ -46,7 +47,7 @@ async function generateConfig(): Promise<any> {
       {
         name: osInfo,
         compilerPath: path.normalize(
-          runCommand(`where ${config["compiler"]}`).trim()
+          runCommand(`where ${config["compiler"]}`).trim().split("\n")[0].trim()
         ),
         includePath: [],
       },
@@ -88,12 +89,15 @@ function configure(): (...args: any[]) => any {
 
       generateConfig().then((x) => {
         x.configurations[0].includePath = includes;
-        write(".vscode/c_cpp_properties.json", JSON.stringify(x, null, 2));
+        write(
+          path.join(
+            vscode.workspace.rootPath!,
+            ".vscode",
+            "c_cpp_properties.json"
+          ),
+          JSON.stringify(x, null, 2)
+        );
       });
-      // readConfig(".vscode/c_cpp_properties.json").then((x) => {
-      //   x["configurations"][0]["includePath"] = includes;
-      //   write(".vscode/c_cpp_properties.json", JSON.stringify(x, null, 2));
-      // });
     });
   };
 }
@@ -143,7 +147,7 @@ function install(): (...args: any[]) => any {
       const selectedOption = vscode.window.showQuickPick(options, {
         placeHolder: "Choose an option",
       });
-      selectedOption.then((x) => {
+      selectedOption.then((x: any) => {
         let terminal =
           vscode.window.activeTerminal ?? vscode.window.createTerminal();
         terminal.show();
@@ -161,8 +165,7 @@ async function readConfig(file: string) {
 }
 
 async function write(file: string, content: string) {
-  const files = await vscode.workspace.findFiles(file);
-  vscode.workspace.fs.writeFile(files[0], Buffer.from(content));
+  fs.writeFileSync(file, content);
 }
 
 export function deactivate() {}
